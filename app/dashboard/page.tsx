@@ -8,6 +8,8 @@ export default async function Page() {
   const revenue = await fetchRevenue();
   const latestInvoices = await fetchLatestInvoices();
   const totalPaidInvoices = (await fetchCardData()).totalPaidInvoices;
+  const totalPendingInvoices = (await fetchCardData()).totalPendingInvoices;
+  const numberOfInvoices = (await fetchCardData()).numberOfInvoices;
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -15,8 +17,8 @@ export default async function Page() {
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Card title="Collected" value={totalPaidInvoices} type="collected" />
-        {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
-        {/* <Card title="Total Invoices" value={numberOfInvoices} type="invoices" /> */}
+        <Card title="Pending" value={totalPendingInvoices} type="pending" />
+        <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
         {/* <Card
           title="Total Customers"
           value={numberOfCustomers}
