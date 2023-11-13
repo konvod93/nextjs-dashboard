@@ -10,6 +10,11 @@ import {
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateInvoice } from '@/app/lib/actions';
+import { useFormState } from 'react-dom';
+import { FormErrorMessage } from './FormErrorMessage';
+import { FieldsErrorMessage } from './FieldErrorMessage';
+
+const initialState = { message: null, errors: {} }
 
 export default function EditInvoiceForm({
   invoice,
@@ -18,9 +23,10 @@ export default function EditInvoiceForm({
   invoice: InvoiceForm;
   customers: CustomerField[];
 }) {
-  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
+  const [state, dispatch] = useFormState(updateInvoice.bind(null, invoice.id), initialState);
+  
   return (
-    <form action={updateInvoiceWithId}>
+    <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Invoice ID */}
         <input type="hidden" name="id" value={invoice.id} />
@@ -47,6 +53,7 @@ export default function EditInvoiceForm({
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
+          <FormErrorMessage id="customer-error" errors={state?.errors?.customerId} />
         </div>
 
         {/* Invoice Amount */}
@@ -67,6 +74,7 @@ export default function EditInvoiceForm({
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
+          <FormErrorMessage id="amount-error" errors={state?.errors?.amount} />
         </div>
 
         {/* Invoice Status */}
@@ -110,6 +118,8 @@ export default function EditInvoiceForm({
               </div>
             </div>
           </div>
+          <FormErrorMessage id="status-error" errors={state?.errors?.status} />
+          <FieldsErrorMessage message={state.message} />
         </div>
       </div>
       <div className="mt-6 flex justify-end gap-4">
