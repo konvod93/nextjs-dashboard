@@ -19,13 +19,7 @@ export default async function Page({
 	const customers = await fetchFilteredCustomers(query)
 
 	return (
-		<div className="w-full">
-			<div className="flex w-full items-center justify-between">
-				<h1 className="font-serif text-2xl">Customers</h1>
-			</div>
-			<div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-				<Search placeholder="Search customers..." />
-			</div>
+		<div className="w-full">			
 			<CustomersTable customers={customers} />
 		</div>
 	)
